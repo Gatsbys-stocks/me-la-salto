@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Cuántas clases puedo faltar? · Calculadora de faltas FP</title>
+  <meta name="description" content="Calcula cuántas clases puedes faltar en cada módulo de FP antes de perder la evaluación continua.">
+  <meta name="theme-color" content="#f6f8fc" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c3a31" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Caveat:wght@700&display=swap">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <main class="wrap">
+    <header>
+      <span class="tag" id="resumen">Agenda de faltas</span>
+      <h1>¿Cuántas clases <em>puedo faltar?</em></h1>
+      <p class="lead">Añade tus módulos con sus horas totales y semanales, y ve sumando faltas. El círculo te dice cuántas te quedan y el % que llevas.</p>
+      <span class="hand">¡No te pases del límite!</span>
+    </header>
+
+    <div id="modulos" class="lista"></div>
+    <button class="add" id="anadir" type="button">+ Añadir módulo</button>
+
+    <details class="ajustes">
+      <summary>Ajustes del insti</summary>
+      <div class="settings">
+        <label for="pct">% de faltas permitido
+          <input id="pct" type="number" min="1" max="100" inputmode="numeric">
+        </label>
+        <label for="duracion">Minutos por clase
+          <input id="duracion" type="number" min="10" step="5" inputmode="numeric">
+        </label>
+        <label for="semanas">Semanas de curso
+          <input id="semanas" type="number" min="1" inputmode="numeric">
+        </label>
+        <p class="note">Normalmente en FP pierdes la evaluación continua al pasar del 20% de las horas de un módulo. Las horas totales de cada módulo salen en el currículo del ciclo o en la programación que te da el profe. Si dejas las horas totales vacías, se calculan con horas/semana × semanas de curso. Cada centro puede tenerlo distinto, así que confírmalo con tu tutor. Los datos se guardan solo en tu móvil u ordenador.</p>
+      </div>
+    </details>
+  </main>
+
+  <!-- Aviso con el gato cuando se pierde la evaluación continua -->
+  <div class="overlay" id="aviso" hidden role="dialog" aria-modal="true" aria-labelledby="avisoTitulo">
+    <div class="pop">
+      <img src="img/gato-platano.png" alt="Gato plátano llorando y bailando">
+      <h3 id="avisoTitulo">Has perdido la evaluación continua</h3>
+      <p id="avisoTexto"></p>
+      <button type="button" id="cerrarAviso">Vale… 😭</button>
+    </div>
+  </div>
+
+  <script src="js/calculo.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

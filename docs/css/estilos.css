@@ -1,0 +1,515 @@
+/* ==========================================================
+   Calculadora de faltas FP
+   Estilo: hoja de cuaderno cuadriculado (modo claro)
+           y pizarra verde (modo oscuro)
+   ========================================================== */
+
+:root {
+  --bg: #f6f8fc;
+  --grid: #dbe6f5;
+  --card: #ffffff;
+  --soft: #eef3fb;
+  --ink: #13254d;
+  --muted: #5b6b8c;
+  --line: #d5deec;
+
+  --pen: #1d4ed8;        /* bolígrafo azul */
+  --marker: #ffe14d;     /* subrayador */
+  --marker-ink: #2a2300;
+  --margin: #f2a3a0;     /* margen rojo del cuaderno */
+  --track: #e6ecf6;
+
+  --ok: #1f9d55;
+  --warn: #ea7a10;
+  --bad: #e0322b;
+
+  --shadow: 0 1px 0 var(--line), 0 10px 24px -16px rgb(19 37 77 / .35);
+  --font: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --hand: "Caveat", "Segoe Print", "Comic Sans MS", cursive;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c3a31;
+    --grid: #25463c;
+    --card: #22443a;
+    --soft: #2a5145;
+    --ink: #f3f1e7;
+    --muted: #b5c7bd;
+    --line: #3a6155;
+
+    --pen: #9cc2ff;
+    --marker: #ffe66b;
+    --margin: #ff8a80;
+    --track: #2f5a4d;
+
+    --ok: #7ee0a3;
+    --warn: #ffbf5e;
+    --bad: #ff8a80;
+
+    --shadow: 0 1px 0 var(--line), 0 12px 28px -16px rgb(0 0 0 / .55);
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Base ---------- */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 16px 64px;
+  color: var(--ink);
+  font: 500 16px/1.5 var(--font);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-attachment: fixed;
+}
+
+.wrap {
+  max-width: 600px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--marker);
+  outline-offset: 2px;
+}
+
+/* ---------- Cabecera ---------- */
+
+header {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.tag {
+  justify-self: start;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: var(--card);
+  color: var(--pen);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font: 800 clamp(32px, 8.5vw, 48px)/1.02 var(--font);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+h1 em {
+  font-style: normal;
+  padding: 0 .08em;
+  background: linear-gradient(transparent 52%, var(--marker) 52%, var(--marker) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.lead {
+  margin: 0;
+  color: var(--muted);
+}
+
+.hand {
+  justify-self: start;
+  margin-top: 2px;
+  color: var(--bad);
+  font: 700 24px/1 var(--hand);
+  transform: rotate(-2deg);
+}
+
+/* ---------- Tarjeta de asignatura ---------- */
+
+.lista {
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 16px 16px 30px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background-color: var(--card);
+  /* línea roja de margen, como en las libretas */
+  background-image: linear-gradient(90deg, transparent 14px, var(--margin) 14px, var(--margin) 16px, transparent 16px);
+  box-shadow: var(--shadow);
+}
+
+/* Anillo de progreso */
+@property --p {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+.ring {
+  --p: 0;
+  --c: var(--ok);
+  width: 108px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--track) 0);
+  transition: --p .4s;
+}
+
+.ring > div {
+  width: 80%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  border-radius: 50%;
+  background: var(--card);
+  line-height: 1;
+  text-align: center;
+}
+
+.ring b {
+  color: var(--c);
+  font: 800 32px/1 var(--font);
+  font-variant-numeric: tabular-nums;
+}
+
+.ring small {
+  margin-top: 2px;
+  color: var(--muted);
+  font: 700 16px/1 var(--hand);
+}
+
+.ring img {
+  width: 84%;
+  transform-origin: 50% 90%;
+  animation: bailar .55s ease-in-out infinite;
+}
+
+.side {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  margin-left: -8px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font: 700 17px var(--font);
+}
+
+.name::placeholder { color: var(--muted); }
+
+.name:hover,
+.name:focus {
+  border-color: var(--line);
+  background: var(--soft);
+}
+
+.x {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.x:hover {
+  background: var(--soft);
+  color: var(--bad);
+}
+
+/* Contadores − / + */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.box {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 8px 6px;
+  border-radius: 12px;
+  background: var(--soft);
+}
+
+.box > span {
+  padding-left: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step button {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--card);
+  box-shadow: 0 0 0 1px var(--line);
+  color: var(--ink);
+  font: 700 19px/1 var(--font);
+  cursor: pointer;
+}
+
+.step button:hover {
+  background: var(--marker);
+  color: var(--marker-ink);
+  box-shadow: none;
+}
+
+.step button:active { transform: scale(.92); }
+
+.step input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 800 21px var(--font);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.step input::-webkit-inner-spin-button,
+.step input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Estado */
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.status strong { color: var(--ink); }
+
+.pill {
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pill.ok   { background: color-mix(in srgb, var(--ok) 16%, transparent);   color: var(--ok); }
+.pill.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+.pill.bad  { background: color-mix(in srgb, var(--bad) 18%, transparent);  color: var(--bad); }
+
+@media (max-width: 420px) {
+  .card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .side { width: 100%; }
+  .ring { width: 120px; }
+}
+
+/* ---------- Botón añadir y ajustes ---------- */
+
+.add {
+  padding: 16px;
+  border: 2px dashed var(--pen);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+  color: var(--pen);
+  font: 700 16px var(--font);
+  cursor: pointer;
+}
+
+.add:hover { background: var(--card); }
+
+.ajustes {
+  padding: 2px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.ajustes summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.ajustes summary::-webkit-details-marker { display: none; }
+
+.ajustes summary::after {
+  content: "+";
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.ajustes[open] summary::after { content: "−"; }
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  padding-bottom: 16px;
+}
+
+.settings label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.settings input {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--soft);
+  color: var(--ink);
+  font: 700 16px var(--font);
+}
+
+.note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- Aviso con el gato ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.overlay[hidden] { display: none; }
+
+.pop {
+  width: 100%;
+  max-width: 360px;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 24px 20px 20px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  text-align: center;
+  animation: aparecer .45s cubic-bezier(.3, 1.5, .5, 1);
+}
+
+.pop img {
+  width: min(220px, 60vw);
+  height: auto;
+  transform-origin: 50% 90%;
+  animation: bailar .55s ease-in-out infinite;
+}
+
+.pop h3 {
+  margin: 6px 0 0;
+  color: var(--bad);
+  font: 700 34px/1 var(--hand);
+  text-wrap: balance;
+}
+
+.pop p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.pop button {
+  margin-top: 8px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--marker);
+  color: var(--marker-ink);
+  font: 800 16px var(--font);
+  cursor: pointer;
+}
+
+/* ---------- Animaciones ---------- */
+
+@keyframes bailar {
+  0%   { transform: translateX(-8px) rotate(-10deg) translateY(0); }
+  25%  { transform: translateX(0)    rotate(0)      translateY(-12px); }
+  50%  { transform: translateX(8px)  rotate(10deg)  translateY(0); }
+  75%  { transform: translateX(0)    rotate(0)      translateY(-12px); }
+  100% { transform: translateX(-8px) rotate(-10deg) translateY(0); }
+}
+
+@keyframes aparecer {
+  from { transform: scale(.7); opacity: 0; }
+  to   { transform: scale(1);  opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pop img,
+  .ring img { animation-duration: 2.4s; }
+  .pop { animation: none; }
+  .ring { transition: none; }
+}

@@ -4,34 +4,37 @@ Web para que los alumnos de FP calculen, módulo por módulo, cuántas clases pu
 
 ## Resumen del proyecto
 
-En FP cada módulo tiene un límite de faltas (normalmente el **20%** de sus horas). Si lo pasas, pierdes la evaluación continua y te toca ir a la prueba final. El problema es que casi nadie sabe cuántas clases son ese 20% en cada módulo, sobre todo si tienes módulos de 1º y de 2º a la vez.
+En FP cada módulo tiene un límite de faltas (normalmente el **20%** de sus horas). Si lo pasas, pierdes la evaluación continua y te toca ir a la prueba final. El problema es que casi nadie sabe cuántas clases son ese 20% en cada módulo.
 
-Esta calculadora lo resuelve: añades tus módulos (de 1º y de 2º) con sus **horas totales**, vas sumando las faltas con un botón, y un círculo te dice cuántas clases te quedan y qué **% de faltas** llevas. Cuando te pasas del límite, aparece el **gato plátano llorando y bailando**.
+Esta calculadora lo resuelve: añades tus módulos con sus **horas totales** y **semanales**, vas sumando las faltas con un botón, y un círculo te dice cuántas clases te quedan y qué **% de faltas** llevas. Cuando te pasas del límite, aparece el **gato plátano llorando y bailando**.
 
 ## Qué incluye
 
-- **Módulos agrupados por curso** (Primero y Segundo), para quien tiene módulos de los dos cursos a la vez. Pulsando la etiqueta 1º / 2º se cambia de curso.
-- **Una tarjeta por módulo** con nombre, horas totales y faltas, con botones − / + para usarlo cómodo desde el móvil.
+- **Una ficha por módulo** con nombre, horas totales, horas por semana y faltas (con botones − / + para sumarlas cómodo desde el móvil).
+- **Semanas que puedes faltar**: con las horas semanales calcula a cuántas semanas enteras de ese módulo equivale lo que te queda.
 - **Porcentaje de faltas** de cada módulo comparado con el límite (por ejemplo, 12,1% de 20%).
 - **Círculo de progreso** que se va llenando y cambia de color: verde (vas bien), naranja (cuidado, has gastado el 75%) y rojo (perdida).
 - **Aviso con el gato** cuando un módulo pasa del límite.
-- **Ajustes del insti**: % de faltas permitido y minutos por clase, por si tu centro lo tiene distinto.
+- **Ajustes del insti**: % de faltas permitido, minutos por clase y semanas de curso, por si tu centro lo tiene distinto.
 - **Guardado automático** en el navegador (`localStorage`). No hace falta cuenta y los datos no salen del móvil.
 - **Diseño escolar**: hoja de cuaderno cuadriculado en modo claro y pizarra verde en modo oscuro.
 - **Responsive**: pensado primero para móvil.
 
 ## Cómo se calcula
 
-El cálculo se hace por módulo a partir de sus **horas totales oficiales**, no de las horas por semana. Así funciona aunque tengas módulos de 1º y de 2º a la vez, o módulos que no duran todo el curso.
+El cálculo se hace por módulo a partir de sus **horas totales oficiales**, no de las horas por semana. Así funciona aunque tengas módulos de distintos cursos a la vez, o módulos que no duran todo el año.
 
 ```
 Clases del módulo  = horas totales ÷ duración de una clase
 Faltas permitidas  = clases del módulo × % permitido   (redondeado hacia abajo)
 Te quedan          = faltas permitidas − faltas que llevas
 % faltado          = horas faltadas ÷ horas totales × 100
+Semanas enteras    = horas que te quedan ÷ horas/semana
 ```
 
-Ejemplo: un módulo de 198 h con clases de 60 min tiene 198 clases. El 20% son **39 faltas**. Si llevas 12, has faltado un 6,1% y te quedan 27. A la falta 40 se pierde la evaluación continua.
+Si no sabes las horas totales de un módulo, déjalas vacías y se estiman con `horas/semana × semanas de curso`.
+
+Ejemplo: un módulo de 198 h con clases de 60 min tiene 198 clases. El 20% son **39 faltas**. Si llevas 12, has faltado un 6,1% y te quedan 27, que con 6 h/semana son unas 4,5 semanas enteras. A la falta 40 se pierde la evaluación continua.
 
 Las horas totales de cada módulo salen en el currículo del ciclo o en la programación didáctica del módulo.
 

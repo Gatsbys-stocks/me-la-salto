@@ -136,36 +136,7 @@ h1 em {
 
 .lista {
   display: grid;
-  gap: 28px;
-}
-
-/* Grupo de módulos por curso */
-.grupo {
-  display: grid;
   gap: 14px;
-}
-
-.grupo-cabecera {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 6px;
-}
-
-.grupo-cabecera h2 {
-  margin: 0;
-  font: 800 22px/1.1 var(--font);
-  letter-spacing: -.02em;
-}
-
-.grupo-cabecera span {
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
 }
 
 .vacio {
@@ -269,20 +240,6 @@ h1 em {
   background: var(--soft);
 }
 
-/* Etiqueta de curso (pulsar para cambiar 1º ⇄ 2º) */
-.curso {
-  flex: none;
-  padding: 3px 9px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--pen);
-  color: var(--card);
-  font: 800 13px/1.3 var(--font);
-  cursor: pointer;
-}
-
-.curso:hover { background: var(--marker); color: var(--marker-ink); }
-
 .x {
   flex: none;
   width: 32px;
@@ -323,6 +280,30 @@ h1 em {
   font-weight: 700;
   letter-spacing: .07em;
   text-transform: uppercase;
+}
+
+/* Campos de horas (se rellenan una vez, sin botones) */
+.campo { cursor: text; }
+
+.campo input {
+  width: 100%;
+  min-width: 0;
+  padding: 2px 4px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 800 21px var(--font);
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.campo input::placeholder { color: var(--muted); font-weight: 600; }
+
+.campo input::-webkit-inner-spin-button,
+.campo input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .step {
@@ -385,6 +366,8 @@ h1 em {
 .status strong { color: var(--ink); }
 
 .status .pct strong { font-size: 15px; }
+
+.status .nota { font-style: italic; }
 
 .pill {
   padding: 3px 10px;

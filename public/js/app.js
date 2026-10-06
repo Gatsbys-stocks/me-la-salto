@@ -1,25 +1,22 @@
 /**
- * Interfaz: pinta los módulos agrupados por curso (1º y 2º),
+ * Interfaz: pinta la lista de módulos,
  * maneja los botones − / +, guarda los datos en el navegador
  * y muestra el gato cuando se pierde la evaluación continua.
  */
 
-const CLAVE = "calculadora-faltas-fp-modulos";
+const CLAVE = "calculadora-faltas-fp-modulos-v3";
 const GATO = "img/gato-platano.png";
-const CURSOS = [
-  { id: 1, titulo: "Primero" },
-  { id: 2, titulo: "Segundo" },
-];
 
 const EJEMPLO = {
   pct: 20,
   duracion: 60,
+  semanas: 33,
   modulos: [
-    { nombre: "Programación", curso: 1, horasTotales: 198, faltas: 12 },
-    { nombre: "Bases de datos", curso: 1, horasTotales: 165, faltas: 4 },
-    { nombre: "Inglés profesional", curso: 1, horasTotales: 66, faltas: 13 },
-    { nombre: "Acceso a datos", curso: 2, horasTotales: 132, faltas: 6 },
-    { nombre: "Desarrollo de interfaces", curso: 2, horasTotales: 99, faltas: 2 },
+    { nombre: "Programación", horasTotales: 198, horasSemana: 6, faltas: 12 },
+    { nombre: "Bases de datos", horasTotales: 165, horasSemana: 5, faltas: 4 },
+    { nombre: "Inglés profesional", horasTotales: 66, horasSemana: 2, faltas: 13 },
+    { nombre: "Acceso a datos", horasTotales: 132, horasSemana: 6, faltas: 6 },
+    { nombre: "Desarrollo de interfaces", horasTotales: 99, horasSemana: 4, faltas: 2 },
   ],
 };
 
@@ -71,35 +68,27 @@ function tarjeta(m, i) {
       <div class="ring" id="anillo-${i}"><div id="centro-${i}"></div></div>
       <div class="side">
         <div class="top">
-          <button class="curso" type="button" data-cambiar-curso aria-label="Cambiar de curso">${m.curso === 2 ? "2º" : "1º"}</button>
           <input class="name" id="nombre-${i}" data-campo="nombre" value="${escapar(m.nombre)}" placeholder="Nombre del módulo" aria-label="Nombre del módulo">
           <button class="x" type="button" data-borrar aria-label="Quitar módulo">×</button>
         </div>
         <div class="row">
-          ${contador(i, "horasTotales", "Horas totales", m.horasTotales, "Menos horas", "Más horas")}
-          ${contador(i, "faltas", "Faltas", m.faltas, "Quitar falta", "Sumar falta")}
+          <label class="box campo" for="horasTotales-${i}"><span>Horas totales</span>
+            <input id="horasTotales-${i}" data-campo="horasTotales" type="number" min="0" inputmode="numeric" value="${escapar(m.horasTotales)}" placeholder="auto">
+          </label>
+          <label class="box campo" for="horasSemana-${i}"><span>Horas/semana</span>
+            <input id="horasSemana-${i}" data-campo="horasSemana" type="number" min="0" step="0.5" inputmode="decimal" value="${escapar(m.horasSemana)}">
+          </label>
         </div>
+        ${contador(i, "faltas", "Faltas (clases)", m.faltas, "Quitar falta", "Sumar falta")}
         <div class="status" id="estado-${i}"></div>
       </div>
     </article>`;
 }
 
 function pintarTodo() {
-  lista.innerHTML = CURSOS.map((c) => {
-    const tarjetas = datos.modulos
-      .map((m, i) => ((m.curso === 2 ? 2 : 1) === c.id ? tarjeta(m, i) : ""))
-      .join("");
-    return `
-      <section class="grupo" aria-labelledby="curso-${c.id}">
-        <div class="grupo-cabecera">
-          <h2 id="curso-${c.id}">${c.titulo}</h2>
-          <span id="info-curso-${c.id}"></span>
-        </div>
-        ${tarjetas || `<p class="vacio">Aún no hay módulos de ${c.titulo.toLowerCase()}.</p>`}
-        <button class="add" type="button" data-anadir="${c.id}">+ Añadir módulo de ${c.id}º</button>
-      </section>`;
-  }).join("");
-
+  lista.innerHTML = datos.modulos.length
+    ? datos.modulos.map(tarjeta).join("")
+    : `<p class="vacio">Aún no has añadido ningún módulo.</p>`;
   datos.modulos.forEach((_, i) => pintarModulo(i));
   pintarResumen();
 }
@@ -122,8 +111,10 @@ function pintarModulo(i) {
   $("estado-" + i).innerHTML = r.horasTotales
     ? `<span class="pill ${r.estado}">${texto}</span>
        <span class="pct"><strong>${formatear(r.pctFaltado)}%</strong> de ${formatear(r.pct)}%</span>
-       <span><strong>${r.usadas}</strong>/${r.permitidas} faltas</span>`
-    : `<span>Pon las horas totales del módulo</span>`;
+       <span><strong>${r.usadas}</strong>/${r.permitidas} faltas</span>
+       ${r.semanasQuedan >= 1 ? `<span>≈ <strong>${formatear(r.semanasQuedan)}</strong> semanas enteras</span>` : ""}
+       ${r.estimado ? `<span class="nota">Total estimado: ${formatear(r.horasTotales)} h</span>` : ""}`
+    : `<span>Pon las horas totales o las horas por semana</span>`;
 
   // Aviso del gato solo al pasar el límite, no cada vez que se pinta
   if (r.quedan < 0 && !perdidos.has(i)) {
@@ -135,14 +126,9 @@ function pintarModulo(i) {
 
 function pintarResumen() {
   const n = datos.modulos.length;
-  $("resumen").textContent = `${n} ${n === 1 ? "módulo" : "módulos"} · límite ${formatear(aNumero(datos.pct) || 20)}%`;
-
-  CURSOS.forEach((c) => {
-    const del = datos.modulos.filter((m) => (m.curso === 2 ? 2 : 1) === c.id);
-    const horas = del.reduce((t, m) => t + aNumero(m.horasTotales), 0);
-    const info = $("info-curso-" + c.id);
-    if (info) info.textContent = del.length ? `${del.length} ${del.length === 1 ? "módulo" : "módulos"} · ${formatear(horas)} h` : "";
-  });
+  const horasSemana = datos.modulos.reduce((t, m) => t + aNumero(m.horasSemana), 0);
+  $("resumen").textContent =
+    `${n} ${n === 1 ? "módulo" : "módulos"} · ${formatear(horasSemana)} h/semana · límite ${formatear(aNumero(datos.pct) || 20)}%`;
 }
 
 /* ---------- Aviso del gato ---------- */
@@ -180,26 +166,9 @@ lista.addEventListener("click", (e) => {
   const boton = e.target.closest("button");
   if (!boton) return;
 
-  // Añadir módulo a un curso
-  if (boton.dataset.anadir) {
-    datos.modulos.push({ nombre: "", curso: +boton.dataset.anadir, horasTotales: 99, faltas: 0 });
-    guardar();
-    pintarTodo();
-    $("nombre-" + (datos.modulos.length - 1)).focus();
-    return;
-  }
-
   const tarjeta = boton.closest(".card");
   if (!tarjeta) return;
   const i = +tarjeta.dataset.i;
-
-  // Pasar el módulo de 1º a 2º o al revés
-  if (boton.hasAttribute("data-cambiar-curso")) {
-    datos.modulos[i].curso = datos.modulos[i].curso === 2 ? 1 : 2;
-    guardar();
-    pintarTodo();
-    return;
-  }
 
   // Quitar módulo
   if (boton.hasAttribute("data-borrar")) {
@@ -222,10 +191,18 @@ lista.addEventListener("click", (e) => {
   pintarResumen();
 });
 
+// Añadir módulo
+$("anadir").addEventListener("click", () => {
+  datos.modulos.push({ nombre: "", horasTotales: "", horasSemana: 3, faltas: 0 });
+  guardar();
+  pintarTodo();
+  $("nombre-" + (datos.modulos.length - 1)).focus();
+});
+
 // Ajustes del insti
-["pct", "duracion"].forEach((id) => {
+["pct", "duracion", "semanas"].forEach((id) => {
   const campo = $(id);
-  campo.value = datos[id];
+  campo.value = datos[id] ?? EJEMPLO[id];
   campo.addEventListener("input", () => {
     datos[id] = campo.value;
     guardar();

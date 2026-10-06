@@ -20,11 +20,12 @@
     <header>
       <span class="tag" id="resumen">Agenda de faltas</span>
       <h1>¿Cuántas clases <em>puedo faltar?</em></h1>
-      <p class="lead">Añade tus módulos de 1º y 2º con sus horas totales y ve sumando faltas. El círculo te dice cuántas te quedan y el % que llevas.</p>
+      <p class="lead">Añade tus módulos con sus horas totales y semanales, y ve sumando faltas. El círculo te dice cuántas te quedan y el % que llevas.</p>
       <span class="hand">¡No te pases del límite!</span>
     </header>
 
     <div id="modulos" class="lista"></div>
+    <button class="add" id="anadir" type="button">+ Añadir módulo</button>
 
     <details class="ajustes">
       <summary>Ajustes del insti</summary>
@@ -35,7 +36,10 @@
         <label for="duracion">Minutos por clase
           <input id="duracion" type="number" min="10" step="5" inputmode="numeric">
         </label>
-        <p class="note">Normalmente en FP pierdes la evaluación continua al pasar del 20% de las horas de un módulo. Las horas totales de cada módulo salen en el currículo del ciclo o en la programación que te da el profe. Cada centro puede tenerlo distinto, así que confírmalo con tu tutor. Los datos se guardan solo en tu móvil u ordenador.</p>
+        <label for="semanas">Semanas de curso
+          <input id="semanas" type="number" min="1" inputmode="numeric">
+        </label>
+        <p class="note">Normalmente en FP pierdes la evaluación continua al pasar del 20% de las horas de un módulo. Las horas totales de cada módulo salen en el currículo del ciclo o en la programación que te da el profe. Si dejas las horas totales vacías, se calculan con horas/semana × semanas de curso. Cada centro puede tenerlo distinto, así que confírmalo con tu tutor. Los datos se guardan solo en tu móvil u ordenador.</p>
       </div>
     </details>
   </main>

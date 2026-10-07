@@ -1,4 +1,6 @@
-# ¿Cuántas clases puedo faltar? — Calculadora de faltas FP
+# Me la salto — Calculadora de faltas FP
+
+🔗 **https://melasalto.lol**
 
 Web para que los alumnos de FP calculen, módulo por módulo, cuántas clases pueden faltar antes de perder la **evaluación continua**.
 
@@ -43,7 +45,7 @@ Las horas totales de cada módulo salen en el currículo del ciclo o en la progr
 ## Estructura del proyecto
 
 ```
-calculadora-faltas/
+me-la-salto/
 ├── public/                  # Web (código fuente)
 │   ├── index.html
 │   ├── css/
@@ -54,12 +56,13 @@ calculadora-faltas/
 │   └── img/
 │       ├── gato-platano.png # el gato del aviso
 │       └── favicon.svg
-├── docs/                    # copia de public/ para GitHub Pages
+├── docs/                    # copia de public/ que publica GitHub Pages
+│   └── CNAME                # dominio: melasalto.lol
 ├── README.md
 └── .gitignore
 ```
 
-`docs/` es una copia exacta de `public/` para poder publicar la web con GitHub Pages. Si cambias algo en `public/`, vuelve a copiarlo a `docs/`.
+`docs/` es una copia de `public/` y es la carpeta que publica GitHub Pages. Si cambias algo en `public/`, vuelve a copiarlo a `docs/` **sin borrar `docs/CNAME`**, que es lo que mantiene conectado el dominio.
 
 ## Stack técnico
 
@@ -67,7 +70,7 @@ calculadora-faltas/
 |----------|---------------------------------------------|
 | Frontend | HTML5, CSS3, JavaScript (sin frameworks)    |
 | Datos    | `localStorage` del navegador                |
-| Hosting  | GitHub Pages                                |
+| Hosting  | GitHub Pages con dominio propio (`melasalto.lol`) |
 
 No tiene backend ni base de datos: todo se calcula en el navegador, así que es rápida, gratis de alojar y no guarda datos de nadie en ningún servidor.
 
@@ -75,12 +78,12 @@ No tiene backend ni base de datos: todo se calcula en el navegador, así que es 
 
 No hace falta instalar nada. Abre `public/index.html` en el navegador.
 
-## Publicar en GitHub Pages
+## Despliegue
 
-1. Sube el repo a GitHub.
-2. Ve a **Settings → Pages**.
-3. En *Source* elige **Deploy from a branch**, rama `main` y carpeta **`/docs`**.
-4. En un par de minutos la web estará en `https://<tu-usuario>.github.io/<nombre-del-repo>/`.
+La web se publica con **GitHub Pages** desde la rama `main`, carpeta `/docs`, con el dominio **melasalto.lol**:
+
+- DNS: 4 registros `A` de `@` a las IPs de GitHub Pages (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) y un `CNAME` de `www` a `gatsbys-stocks.github.io`.
+- Cada push a `main` que cambie `docs/` actualiza la web en un par de minutos.
 
 ## Licencia
 

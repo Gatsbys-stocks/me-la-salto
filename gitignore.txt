@@ -1,0 +1,11 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Dependencias y secretos (por si algún día se añaden)
+node_modules/
+.env

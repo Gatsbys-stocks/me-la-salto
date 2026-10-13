@@ -6,7 +6,7 @@
   <title>¿Cuántas clases puedo faltar? · Calculadora de faltas FP</title>
   <meta name="description" content="Calcula cuántas clases puedes faltar en cada módulo de FP antes de perder la evaluación continua.">
   <meta name="theme-color" content="#f6f8fc" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c3a31" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0f1730" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +24,10 @@
       <span class="hand">¡No te pases del límite!</span>
     </header>
 
-    <div id="modulos" class="lista"></div>
-    <button class="add" id="anadir" type="button">+ Añadir módulo</button>
+    <div class="acciones">
+      <button class="add" id="anadir" type="button">+ Añadir módulo</button>
 
-    <details class="ajustes">
+      <details class="ajustes">
       <summary>Ajustes del insti</summary>
       <div class="settings">
         <label for="pct">% de faltas permitido
@@ -40,8 +40,11 @@
           <input id="semanas" type="number" min="1" inputmode="numeric">
         </label>
         <p class="note">Normalmente en FP pierdes la evaluación continua al pasar del 20% de las horas de un módulo. Las horas totales de cada módulo salen en el currículo del ciclo o en la programación que te da el profe. Si dejas las horas totales vacías, se calculan con horas/semana × semanas de curso. Cada centro puede tenerlo distinto, así que confírmalo con tu tutor. Los datos se guardan solo en tu móvil u ordenador.</p>
-      </div>
-    </details>
+        </div>
+      </details>
+    </div>
+
+    <div id="modulos" class="lista"></div>
   </main>
 
   <!-- Aviso con el gato cuando se pierde la evaluación continua -->

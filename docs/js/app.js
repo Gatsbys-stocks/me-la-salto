@@ -211,4 +211,11 @@ $("anadir").addEventListener("click", () => {
   });
 });
 
+// Que la rueda del ratón no cambie los números al hacer scroll:
+// si el ratón gira sobre un campo numérico seleccionado, se quita el foco y la página baja normal.
+document.addEventListener("wheel", (e) => {
+  const campo = document.activeElement;
+  if (campo && campo.type === "number" && campo === e.target) campo.blur();
+}, { passive: true });
+
 pintarTodo();

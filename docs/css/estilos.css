@@ -1,7 +1,7 @@
 /* ==========================================================
    Calculadora de faltas FP
    Estilo: hoja de cuaderno cuadriculado (modo claro)
-           y pizarra verde (modo oscuro)
+           y cuaderno de noche azul marino (modo oscuro)
    ========================================================== */
 
 :root {
@@ -23,6 +23,9 @@
   --warn: #ea7a10;
   --bad: #e0322b;
 
+  --hl-from: 52%;        /* dónde empieza el subrayador del título */
+  --hl-ink: var(--ink);
+
   --shadow: 0 1px 0 var(--line), 0 10px 24px -16px rgb(19 37 77 / .35);
   --font: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --hand: "Caveat", "Segoe Print", "Comic Sans MS", cursive;
@@ -30,22 +33,25 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1c3a31;
-    --grid: #25463c;
-    --card: #22443a;
-    --soft: #2a5145;
-    --ink: #f3f1e7;
-    --muted: #b5c7bd;
-    --line: #3a6155;
+    --bg: #0f1730;
+    --grid: #18223f;
+    --card: #17213d;
+    --soft: #1f2b4b;
+    --ink: #edf1fb;
+    --muted: #9eabc9;
+    --line: #2a3758;
 
-    --pen: #9cc2ff;
-    --marker: #ffe66b;
-    --margin: #ff8a80;
-    --track: #2f5a4d;
+    --pen: #8fb1ff;
+    --marker: #ffe14d;
+    --margin: #e8706a;
+    --track: #26335a;
 
-    --ok: #7ee0a3;
-    --warn: #ffbf5e;
-    --bad: #ff8a80;
+    --ok: #4fd18b;
+    --warn: #ffb547;
+    --bad: #ff7a72;
+
+    --hl-from: 8%;
+    --hl-ink: var(--marker-ink);
 
     --shadow: 0 1px 0 var(--line), 0 12px 28px -16px rgb(0 0 0 / .55);
     color-scheme: dark;
@@ -114,7 +120,8 @@ h1 {
 h1 em {
   font-style: normal;
   padding: 0 .08em;
-  background: linear-gradient(transparent 52%, var(--marker) 52%, var(--marker) 92%, transparent 92%);
+  color: var(--hl-ink);
+  background: linear-gradient(transparent var(--hl-from), var(--marker) var(--hl-from), var(--marker) 92%, transparent 92%);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -147,9 +154,10 @@ h1 em {
 
 .card {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 16px;
   align-items: center;
+  min-width: 0;
   padding: 16px 16px 16px 30px;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -210,6 +218,7 @@ h1 em {
 
 .side {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   min-width: 0;
 }
@@ -260,12 +269,13 @@ h1 em {
 /* Contadores − / + */
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
 .box {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2px;
   min-width: 0;
   padding: 8px 8px 6px;
@@ -274,6 +284,9 @@ h1 em {
 }
 
 .box > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding-left: 4px;
   color: var(--muted);
   font-size: 11px;
@@ -380,6 +393,24 @@ h1 em {
 .pill.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
 .pill.bad  { background: color-mix(in srgb, var(--bad) 18%, transparent);  color: var(--bad); }
 
+/* ---------- Ordenador: módulos en rejilla a todo el ancho ---------- */
+
+@media (min-width: 1000px) {
+  body { padding: 48px 32px 64px; }
+
+  .wrap { max-width: 1320px; }
+
+  header { max-width: 760px; }
+
+  .lista {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    align-items: stretch;
+  }
+
+  .ring { width: 92px; }
+  .ring b { font-size: 28px; }
+}
+
 @media (max-width: 420px) {
   .card {
     grid-template-columns: 1fr;
@@ -389,10 +420,18 @@ h1 em {
   .ring { width: 120px; }
 }
 
-/* ---------- Botón añadir y ajustes ---------- */
+/* ---------- Botón añadir y ajustes (arriba de los módulos) ---------- */
+
+.acciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
 
 .add {
-  padding: 16px;
+  min-height: 56px;
+  padding: 14px 16px;
   border: 2px dashed var(--pen);
   border-radius: 18px;
   background: color-mix(in srgb, var(--card) 70%, transparent);

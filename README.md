@@ -19,7 +19,7 @@ Esta calculadora lo resuelve: añades tus módulos con sus **horas totales** y *
 - **Aviso con el gato** cuando un módulo pasa del límite.
 - **Ajustes del insti**: % de faltas permitido, minutos por clase y semanas de curso, por si tu centro lo tiene distinto.
 - **Guardado automático** en el navegador (`localStorage`). No hace falta cuenta y los datos no salen del móvil.
-- **Diseño escolar**: hoja de cuaderno cuadriculado en modo claro y pizarra verde en modo oscuro.
+- **Temas para cambiar el diseño**: Cuaderno, Noche, Plátano, Chicle y Pizarra, o Auto (sigue el modo claro/oscuro del móvil). El tema elegido se recuerda.
 - **Responsive**: pensado primero para móvil.
 
 ## Cómo se calcula

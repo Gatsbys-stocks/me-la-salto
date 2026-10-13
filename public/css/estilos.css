@@ -1,7 +1,7 @@
 /* ==========================================================
    Calculadora de faltas FP
-   Estilo: hoja de cuaderno cuadriculado (modo claro)
-           y cuaderno de noche azul marino (modo oscuro)
+   Estilo: hoja de cuaderno cuadriculado, con temas para elegir
+           (cuaderno, noche, plátano, chicle y pizarra)
    ========================================================== */
 
 :root {
@@ -38,8 +38,15 @@
   --hand: "Caveat", "Segoe Print", "Comic Sans MS", cursive;
 }
 
+/* ==========================================================
+   TEMAS
+   Sin elegir (automático): sigue el modo claro/oscuro del móvil.
+   Con data-tema en <html>: el tema que elige el usuario.
+   ========================================================== */
+
+/* Automático en modo oscuro */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-tema]) {
     --bg: #0f1730;
     --grid: #18223f;
     --card: #17213d;
@@ -63,6 +70,154 @@
     --shadow: 0 1px 0 var(--line), 0 12px 28px -16px rgb(0 0 0 / .55);
     color-scheme: dark;
   }
+}
+
+/* Noche: azul marino */
+:root[data-tema="noche"] {
+  --bg: #0f1730;
+  --grid: #18223f;
+  --card: #17213d;
+  --soft: #1f2b4b;
+  --ink: #edf1fb;
+  --muted: #9eabc9;
+  --line: #2a3758;
+
+  --pen: #8fb1ff;
+  --marker: #ffe14d;
+  --margin: #e8706a;
+  --track: #26335a;
+
+  --ok: #4fd18b;
+  --warn: #ffb547;
+  --bad: #ff7a72;
+
+  --hl-from: 8%;
+  --hl-ink: var(--marker-ink);
+
+  --shadow: 0 1px 0 var(--line), 0 12px 28px -16px rgb(0 0 0 / .55);
+  color-scheme: dark;
+}
+
+/* Plátano: amarillo y marrón */
+:root[data-tema="platano"] {
+  --bg: #fff7d6;
+  --grid: #f4e6a8;
+  --card: #fffdf3;
+  --soft: #fff3c4;
+  --ink: #3b2a00;
+  --muted: #80683a;
+  --line: #efdc93;
+  --pen: #b26b00;
+  --marker: #ffd23f;
+  --marker-ink: #2e2200;
+  --margin: #f0a35e;
+  --track: #f7ebbd;
+  --ok: #3f8f2a;
+  --warn: #d06a00;
+  --bad: #d43a26;
+  --hl-from: 52%;
+  --hl-ink: var(--ink);
+  --shadow: 0 1px 0 var(--line), 0 10px 24px -16px rgb(80 60 0 / .35);
+  color-scheme: light;
+}
+
+/* Chicle: rosa */
+:root[data-tema="chicle"] {
+  --bg: #fff0f6;
+  --grid: #fbd9e7;
+  --card: #ffffff;
+  --soft: #fff1f7;
+  --ink: #4a1030;
+  --muted: #8c5574;
+  --line: #f6cfe0;
+  --pen: #d63384;
+  --marker: #ffb3d5;
+  --marker-ink: #4a1030;
+  --margin: #c9a3ff;
+  --track: #fbe1ec;
+  --ok: #1f9d6b;
+  --warn: #e07a12;
+  --bad: #d92d4f;
+  --hl-from: 52%;
+  --hl-ink: var(--ink);
+  --shadow: 0 1px 0 var(--line), 0 10px 24px -16px rgb(120 20 70 / .3);
+  color-scheme: light;
+}
+
+/* Pizarra: verde oscuro con tiza */
+:root[data-tema="pizarra"] {
+  --bg: #1d3b32;
+  --grid: #24473c;
+  --card: #234639;
+  --soft: #2b5446;
+  --ink: #f4f1e6;
+  --muted: #b7c9bf;
+  --line: #386152;
+  --pen: #ffe59a;
+  --marker: #fff3b0;
+  --marker-ink: #263a1e;
+  --margin: #ff9d8f;
+  --track: #2f5a4b;
+  --ok: #8be3a8;
+  --warn: #ffc56b;
+  --bad: #ff8f84;
+  --hl-from: 8%;
+  --hl-ink: var(--marker-ink);
+  --shadow: 0 1px 0 var(--line), 0 12px 28px -16px rgb(0 0 0 / .5);
+  color-scheme: dark;
+}
+
+/* Selector de tema */
+.temas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.temas > span {
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.tema {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--sw);
+  box-shadow: inset 0 0 0 3px var(--card);
+  cursor: pointer;
+  transition: transform .15s;
+}
+
+.tema:hover { transform: scale(1.1); }
+
+.tema[aria-pressed="true"] {
+  border-color: var(--pen);
+  transform: scale(1.12);
+}
+
+.tema-auto {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 99px;
+  background: var(--card);
+  box-shadow: none;
+  color: var(--ink);
+  font: 700 13px var(--font);
+}
+
+.cabecera-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 /* ---------- Base ---------- */

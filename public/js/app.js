@@ -219,4 +219,26 @@ document.addEventListener("wheel", (e) => {
   if (campo && campo.type === "number" && campo === e.target) campo.blur();
 }, { passive: true });
 
+/* ---------- Temas (cambiar diseño) ---------- */
+
+const CLAVE_TEMA = "tema-faltas";
+
+function ponerTema(tema) {
+  if (tema) document.documentElement.dataset.tema = tema;
+  else delete document.documentElement.dataset.tema;
+  document.querySelectorAll(".tema").forEach((b) => {
+    b.setAttribute("aria-pressed", String((b.dataset.tema || "") === (tema || "")));
+  });
+  try {
+    if (tema) localStorage.setItem(CLAVE_TEMA, tema);
+    else localStorage.removeItem(CLAVE_TEMA);
+  } catch (e) { /* sin almacenamiento */ }
+}
+
+document.querySelectorAll(".tema").forEach((b) => {
+  b.addEventListener("click", () => ponerTema(b.dataset.tema));
+});
+
+ponerTema(document.documentElement.dataset.tema || "");
+
 pintarTodo();

@@ -7,19 +7,34 @@
   <meta name="description" content="Calcula cuántas clases puedes faltar en cada módulo de FP antes de perder la evaluación continua.">
   <meta name="theme-color" content="#f6f8fc" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f1730" media="(prefers-color-scheme: dark)">
+  <script>
+    // Aplica el tema guardado antes de pintar la página (para que no parpadee)
+    try { const t = localStorage.getItem("tema-faltas"); if (t) document.documentElement.dataset.tema = t; } catch (e) {}
+  </script>
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Caveat:wght@700&display=swap">
-  <link rel="stylesheet" href="css/estilos.css?v=5">
+  <link rel="stylesheet" href="css/estilos.css?v=6">
 </head>
 <body>
 
   <main class="wrap">
     <header class="hero">
       <div class="hero-texto">
-        <span class="tag" id="resumen">Agenda de faltas</span>
+        <div class="cabecera-top">
+          <span class="tag" id="resumen">Agenda de faltas</span>
+          <div class="temas" role="group" aria-label="Elegir diseño">
+            <span>Tema</span>
+            <button type="button" class="tema tema-auto" data-tema="" aria-pressed="true">Auto</button>
+            <button type="button" class="tema" data-tema="cuaderno" style="--sw:#f6f8fc" title="Cuaderno" aria-label="Tema cuaderno"></button>
+            <button type="button" class="tema" data-tema="noche" style="--sw:#0f1730" title="Noche" aria-label="Tema noche"></button>
+            <button type="button" class="tema" data-tema="platano" style="--sw:#ffd23f" title="Plátano" aria-label="Tema plátano"></button>
+            <button type="button" class="tema" data-tema="chicle" style="--sw:#ff8fc0" title="Chicle" aria-label="Tema chicle"></button>
+            <button type="button" class="tema" data-tema="pizarra" style="--sw:#1d3b32" title="Pizarra" aria-label="Tema pizarra"></button>
+          </div>
+        </div>
         <h1>¿Cuántas clases <em>puedo faltar?</em></h1>
         <p class="lead">Añade tus módulos con sus horas totales y semanales, y ve sumando faltas. El círculo te dice cuántas te quedan y el % que llevas.</p>
         <span class="hand">¡No te pases del límite!</span>
@@ -65,7 +80,7 @@
     </div>
   </div>
 
-  <script src="js/calculo.js?v=5"></script>
-  <script src="js/app.js?v=5"></script>
+  <script src="js/calculo.js?v=6"></script>
+  <script src="js/app.js?v=6"></script>
 </body>
 </html>

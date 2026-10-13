@@ -12,16 +12,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Caveat:wght@700&display=swap">
-  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/estilos.css?v=5">
 </head>
 <body>
 
   <main class="wrap">
-    <header>
-      <span class="tag" id="resumen">Agenda de faltas</span>
-      <h1>¿Cuántas clases <em>puedo faltar?</em></h1>
-      <p class="lead">Añade tus módulos con sus horas totales y semanales, y ve sumando faltas. El círculo te dice cuántas te quedan y el % que llevas.</p>
-      <span class="hand">¡No te pases del límite!</span>
+    <header class="hero">
+      <div class="hero-texto">
+        <span class="tag" id="resumen">Agenda de faltas</span>
+        <h1>¿Cuántas clases <em>puedo faltar?</em></h1>
+        <p class="lead">Añade tus módulos con sus horas totales y semanales, y ve sumando faltas. El círculo te dice cuántas te quedan y el % que llevas.</p>
+        <span class="hand">¡No te pases del límite!</span>
+      </div>
+
     </header>
 
     <div class="acciones">
@@ -45,6 +48,11 @@
     </div>
 
     <div id="modulos" class="lista"></div>
+
+    <footer class="pie">
+      <span>Hecho con 🍌 por <strong>9's</strong></span>
+      <span>Cada insti puede contar las faltas distinto. Confírmalo siempre con tu tutor.</span>
+    </footer>
   </main>
 
   <!-- Aviso con el gato cuando se pierde la evaluación continua -->
@@ -57,7 +65,7 @@
     </div>
   </div>
 
-  <script src="js/calculo.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/calculo.js?v=5"></script>
+  <script src="js/app.js?v=5"></script>
 </body>
 </html>

@@ -64,7 +64,7 @@ function contador(i, campo, etiqueta, valor, menos, mas) {
 
 function tarjeta(m, i) {
   return `
-    <article class="card" data-i="${i}">
+    <article class="card" data-i="${i}" style="--tab: var(--tab-${i % 5})">
       <div class="ring" id="anillo-${i}"><div id="centro-${i}"></div></div>
       <div class="side">
         <div class="top">
@@ -129,6 +129,7 @@ function pintarResumen() {
   const horasSemana = datos.modulos.reduce((t, m) => t + aNumero(m.horasSemana), 0);
   $("resumen").textContent =
     `${n} ${n === 1 ? "módulo" : "módulos"} · ${formatear(horasSemana)} h/semana · límite ${formatear(aNumero(datos.pct) || 20)}%`;
+
 }
 
 /* ---------- Aviso del gato ---------- */

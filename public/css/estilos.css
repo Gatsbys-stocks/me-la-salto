@@ -23,6 +23,13 @@
   --warn: #ea7a10;
   --bad: #e0322b;
 
+  /* pestañas de colores de las fichas (como separadores de archivador) */
+  --tab-0: #3b6cf6;
+  --tab-1: #ffcf33;
+  --tab-2: #ff7eb6;
+  --tab-3: #2fbf71;
+  --tab-4: #a77bff;
+
   --hl-from: 52%;        /* dónde empieza el subrayador del título */
   --hl-ink: var(--ink);
 
@@ -76,7 +83,7 @@ body {
 }
 
 .wrap {
-  max-width: 600px;
+  max-width: 1320px;
   margin: 0 auto;
   display: grid;
   gap: 16px;
@@ -91,11 +98,33 @@ summary:focus-visible {
 
 /* ---------- Cabecera ---------- */
 
-header {
+.hero {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.hero-texto {
   display: grid;
   gap: 10px;
-  margin-bottom: 6px;
+  min-width: 0;
 }
+
+/* Pie */
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 2px dashed var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.pie strong { color: var(--ink); }
 
 .tag {
   justify-self: start;
@@ -165,6 +194,27 @@ h1 em {
   /* línea roja de margen, como en las libretas */
   background-image: linear-gradient(90deg, transparent 14px, var(--margin) 14px, var(--margin) 16px, transparent 16px);
   box-shadow: var(--shadow);
+  position: relative;
+  transition: transform .2s, box-shadow .2s;
+}
+
+/* pestaña de color arriba de cada ficha */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 30px;
+  width: 64px;
+  height: 7px;
+  border-radius: 0 0 6px 6px;
+  background: var(--tab, var(--pen));
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1px 0 var(--line), 0 18px 32px -18px rgb(19 37 77 / .45);
+  }
 }
 
 /* Anillo de progreso */
@@ -393,22 +443,27 @@ h1 em {
 .pill.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
 .pill.bad  { background: color-mix(in srgb, var(--bad) 18%, transparent);  color: var(--bad); }
 
-/* ---------- Ordenador: módulos en rejilla a todo el ancho ---------- */
+/* ---------- Pantallas anchas: rejilla de fichas y pósit al lado del título ---------- */
 
-@media (min-width: 1000px) {
+@media (min-width: 760px) {
   body { padding: 48px 32px 64px; }
 
-  .wrap { max-width: 1320px; }
-
-  header { max-width: 760px; }
-
   .lista {
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     align-items: stretch;
   }
 
-  .ring { width: 92px; }
-  .ring b { font-size: 28px; }
+  .acciones { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+@media (min-width: 900px) {
+  h1 { font-size: 58px; }
+  .lead { max-width: 60ch; }
+}
+
+@media (min-width: 1000px) {
+  .ring { width: 96px; }
+  .ring b { font-size: 29px; }
 }
 
 @media (max-width: 420px) {
@@ -586,3 +641,5 @@ h1 em {
   .pop { animation: none; }
   .ring { transition: none; }
 }
+
+[hidden] { display: none !important; }

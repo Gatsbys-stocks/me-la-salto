@@ -268,18 +268,28 @@ summary:focus-visible {
 
 /* Pie */
 .pie {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px 24px;
-  margin-top: 24px;
-  padding-top: 16px;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  margin-top: 32px;
+  padding-top: 20px;
   border-top: 2px dashed var(--line);
-  color: var(--muted);
-  font-size: 13px;
+  color: var(--ink);
+  font-size: 15px;
+  text-align: center;
 }
 
-.pie strong { color: var(--ink); }
+.pie p { margin: 0; }
+
+.pie .firma {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.pie strong {
+  color: var(--ink);
+  font-weight: 600;
+}
 
 .tag {
   justify-self: start;
